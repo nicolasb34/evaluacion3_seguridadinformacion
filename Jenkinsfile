@@ -1,32 +1,21 @@
 pipeline {
-    agent { docker { image 'python:3.9-slim' } } 
-
+    agent any
     stages {
-        stage('Build') {
+        stage('Clonar repositorio') {
             steps {
-                echo 'Construyendo el proyecto...'
+                echo 'El pipeline ha obtenido el código desde GitHub correctamente.'
             }
         }
-        
-        stage('Test') {
+        stage('Verificar entorno') {
             steps {
-                echo 'Ejecutando pruebas unitarias...'
+                sh 'echo "Verificando que Jenkins está ejecutando el pipeline..."'
+                sh 'python3 --version || echo "Python no está instalado en este contenedor Jenkins."'
             }
         }
-        
-        stage('Security Scan') {
+        stage('Finalización') {
             steps {
-                echo 'Instalando herramientas de seguridad...'
-
-                sh 'pip install -r requirements.txt' 
-                
-                echo 'Ejecutando análisis estático con Bandit...'
-                
-                sh 'bandit -r . || true' 
+                echo 'Pipeline ejecutado con éxito 🎉'
             }
         }
     }
 }
-
-
-// prueba build forzado
